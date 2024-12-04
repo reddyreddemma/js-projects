@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather API Fetch</title>
+</head>
+<body>
+    <div>
+        <input id="city-input" placeholder="Enter city name">
+        <button id="search-button">Search</button>
+    </div>
+    <div>
+        <h3 id="city-name">City Name</h3>
+        <h6 id="city-time">Local Time</h6>
+        <p id="city-temp">Temperature (°C)</p>
+    </div>
+    <script>
+        const button = document.getElementById("search-button");
+        const input = document.getElementById("city-input");
+        const cityName = document.getElementById('city-name');
+        const cityTime = document.getElementById('city-time');
+        const cityTemp = document.getElementById('city-temp');
+
+        async function getData(city) {
+            try {
+                const response = await fetch(
+                    `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6582ae4b5ddbe4b0a48ca3be23fbca4a&units=metric`
+                );
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Fetching error: ', error);
+                return null;
+            }
+        }
+
+        button.addEventListener("click", async () => {
+            const value = input.value;
+            const result = await getData(value);
+            if (result) {
+                cityName.innerText = `${result.name}, ${result.sys.country}`;
+                cityTime.innerText = new Date(result.dt * 1000).toLocaleString();
+                cityTemp.innerText = `${result.main.temp} °C`;
+            } else {
+                cityName.innerText = 'Error fetching data';
+                cityTime.innerText = '';
+                cityTemp.innerText = '';
+            }
+        });
+    </script>
+</body>
+</html>
