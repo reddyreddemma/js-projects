@@ -1,0 +1,34 @@
+//main.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module" ="main.js"></script>
+</body>
+</html>
+//main.js
+const factorial = require('./utils.js');
+
+const number = 5; // Change this number to calculate the factorial of a different number
+try {
+    const result = factorial(number);
+    console.log(`The factorial of ${number} is ${result}`);
+} catch (error) {
+    console.error(error.message);
+}
+// utils.js
+function factorial(n) {
+    if (n < 0) {
+        throw new Error('Factorial is not defined for negative numbers.');
+    }
+    if (n === 0 || n === 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+module.exports = factorial;
