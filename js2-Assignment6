@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3 id="title">Bubbling vs Capturing - Javascript</h3>
+    <p id="parent">List of the <strong>Fruits</strong></p>
+    <ul id="child">
+        <li>Apple</li>
+        <li>Orange</li>
+        <li>grapes</li>
+    </ul>
+    <script type="text/Javascript">
+        const parent = document.getElementById("parent");
+        const child = document.getElementById("child");
+
+        parent.addEventListener("click",function(){
+            console.log("I am the PARENT");
+        });
+
+        child.addEventListener("click",function(){
+            console.log("I am the CHILD.");
+        });
+    </script>
+</body>
+</html>
