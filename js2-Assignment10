@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="weather-app">
+        <h1>Weather App</h1>
+        <input type="text" id="city" placeholder="Enter city name">
+        <button id="search-btn">Search</button>
+        <div class="error" id="error"></div>
+        <div class="weather-data" id="weather-data">
+          <h2 id="city-name"></h2>
+          <p id="temperature"></p>
+          <p id="feels-like"></p>
+          <p id="humidity"></p>
+          <p id="description"></p>
+          <div class="icon" id="icon"></div>
+        </div>
+      </div>
+    <script>
+        const cityInput = document.getElementById('city');
+        const searchBtn = document.getElementById('search-btn');
+        const errorDiv = document.getElementById('error');
+        const weatherDataDiv = document.getElementById('weather-data');
+        const cityNameDiv = document.getElementById('city-name');
+        const temperatureDiv = document.getElementById('temperature');
+        const feelsLikeDiv = document.getElementById('feels-like');
+        const humidityDiv = document.getElementById('humidity');
+        const descriptionDiv = document.getElementById('description');
+        const iconDiv = document.getElementById('icon');
+        searchBtn.addEventListener('click', getWeatherData);
+
+          function getWeatherData() {
+            const city = cityInput.value;
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6582ae4b5ddbe4b0a48ca3be23fbca4a&units=metric`;
+            fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                errorDiv.textContent = '';
+                weatherDataDiv.style.display = 'block';
+                cityNameDiv.textContent = data.name;
+                temperatureDiv.textContent = `Temperature: ${data.main.temp}°C`;
+                feelsLikeDiv.textContent = `Feels like: ${data.main.feels_like}°C`;
+                humidityDiv.textContent = `Humidity: ${data.main.humidity}%`;
+                descriptionDiv.textContent = `Description: ${data.weather[0].description}`;
+                const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+                iconDiv.style.backgroundImage = `url(${iconUrl})`;
+              })
+              .catch(error => {
+                errorDiv.textContent = 'Failed to fetch weather data';
+                weatherDataDiv.style.display = 'none';
+              });
+          }
+  </script>
+</body>
+</html>
